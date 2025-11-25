@@ -19,12 +19,24 @@ function App() {
   }, [days]);
 
   return (
-    <div style={{ padding: "1.5rem", fontFamily: "system-ui" }}>
-      <h1>
-        <a href="/" style={{ textDecoration: "none", color: "inherit" }}>
-          Coastal Risk Portal – Upcoming Renewals
+    <div style={{ fontFamily: "system-ui" }}>
+      <nav style={{
+        padding: "1rem 1.5rem",
+        borderBottom: "1px solid #e0e0e0",
+        marginBottom: "1.5rem"
+      }}>
+        <a href="/" style={{
+          textDecoration: "none",
+          color: "#2563eb",
+          fontSize: "1.25rem",
+          fontWeight: "600"
+        }}>
+          Coastal Risk Portal
         </a>
-      </h1>
+      </nav>
+
+      <div style={{ padding: "0 1.5rem 1.5rem 1.5rem" }}>
+        <h1>Upcoming Renewals</h1>
 
       <label>
         Days to expiration:{" "}
@@ -72,6 +84,7 @@ function App() {
           </tbody>
         </table>
       )}
+      </div>
     </div>
   );
 }
