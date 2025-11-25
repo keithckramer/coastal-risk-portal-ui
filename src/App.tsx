@@ -20,7 +20,11 @@ function App() {
 
   return (
     <div style={{ padding: "1.5rem", fontFamily: "system-ui" }}>
-      <h1>Coastal Risk Portal – Upcoming Renewals</h1>
+      <h1>
+        <a href="/" style={{ textDecoration: "none", color: "inherit" }}>
+          Coastal Risk Portal – Upcoming Renewals
+        </a>
+      </h1>
 
       <label>
         Days to expiration:{" "}
