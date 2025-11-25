@@ -11,3 +11,10 @@ export interface UpcomingRenewal {
   annualPremium: number;
   openClaimCount: number;
 }
+
+export interface RenewalSummary {
+  totalPolicies: number;
+  totalAnnualPremium: number;
+  policiesWithOpenClaims: number;
+  averageDaysToExpiration: number;
+}
