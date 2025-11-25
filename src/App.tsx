@@ -1,74 +1,73 @@
-import { useEffect, useState } from "react";
-import { fetchUpcomingRenewals } from "./api";
-import type { UpcomingRenewal } from "./types";
+/**
+ * Root application component
+ * Configures routing and protected routes
+ */
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { Layout } from './components/layout/Layout';
+import { LoginPage } from './features/auth/LoginPage';
+import { DashboardPage } from './features/dashboard/DashboardPage';
+import { RenewalsPage } from './features/renewals/RenewalsPage';
+import { PoliciesPage } from './features/policies/PoliciesPage';
+import { ClaimsPage } from './features/claims/ClaimsPage';
 
 function App() {
-  const [days, setDays] = useState(60);
-  const [data, setData] = useState<UpcomingRenewal[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-
-    fetchUpcomingRenewals(days)
-      .then(setData)
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [days]);
-
   return (
-    <div style={{ padding: "1.5rem", fontFamily: "system-ui" }}>
-      <h1>Coastal Risk Portal – Upcoming Renewals</h1>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<LoginPage />} />
 
-      <label>
-        Days to expiration:{" "}
-        <input
-          type="number"
-          value={days}
-          onChange={e => setDays(Number(e.target.value))}
-          style={{ width: 80 }}
-        />
-      </label>
+          {/* Protected routes with layout */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DashboardPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/renewals"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <RenewalsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/policies"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <PoliciesPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/claims"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <ClaimsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
 
-      {loading && <p>Loading…</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!loading && !error && (
-        <table style={{ marginTop: "1rem", borderCollapse: "collapse", width: "100%" }}>
-          <thead>
-            <tr>
-              <th>Policy #</th>
-              <th>Building</th>
-              <th>Location</th>
-              <th>Expires</th>
-              <th>Days Left</th>
-              <th>Premium</th>
-              <th>Open Claims</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map(r => (
-              <tr key={r.policyNumber}>
-                <td>{r.policyNumber}</td>
-                <td>{r.buildingName}</td>
-                <td>{`${r.city}, ${r.state}`}</td>
-                <td>{new Date(r.expirationDate).toLocaleDateString()}</td>
-                <td>{r.daysToExpiration}</td>
-                <td>${r.annualPremium.toLocaleString()}</td>
-                <td>{r.openClaimCount}</td>
-              </tr>
-            ))}
-            {data.length === 0 && !loading && (
-              <tr>
-                <td colSpan={7}>No renewals in this window.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      )}
-    </div>
+          {/* Catch-all redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
