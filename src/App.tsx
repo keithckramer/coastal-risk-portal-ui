@@ -188,72 +188,25 @@ function App() {
   };
 
   return (
-    <div style={{ fontFamily: "system-ui" }}>
-      <nav style={{
-        padding: "1rem 1.5rem",
-        borderBottom: "1px solid #e0e0e0",
-        marginBottom: "1.5rem"
-      }}>
-        <a href="/" style={{
-          textDecoration: "none",
-          color: "#2563eb",
-          fontSize: "1.25rem",
-          fontWeight: "600"
-        }}>
-          Coastal Risk Portal
-        </a>
-      </nav>
-
-      <div style={{ padding: "0 1.5rem 1.5rem 1.5rem" }}>
-        <h1>Upcoming Renewals</h1>
-
-      <label>
-        Days to expiration:{" "}
-        <input
-          type="number"
-          value={days}
-          onChange={e => setDays(Number(e.target.value))}
-          style={{ width: 80 }}
+    <div style={{ fontFamily: "system-ui", minHeight: "100vh" }}>
+      <header>
+        <PortalNavbar
+          activeRoute={activeRoute}
+          onRouteChange={setActiveRoute}
+          userName="John Smith"
         />
-      </label>
-
-      {loading && <p>Loading…</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!loading && !error && (
-        <table style={{ marginTop: "1rem", borderCollapse: "collapse", width: "100%" }}>
-          <thead>
-            <tr>
-              <th>Policy #</th>
-              <th>Building</th>
-              <th>Location</th>
-              <th>Expires</th>
-              <th>Days Left</th>
-              <th>Premium</th>
-              <th>Open Claims</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map(r => (
-              <tr key={r.policyNumber}>
-                <td>{r.policyNumber}</td>
-                <td>{r.buildingName}</td>
-                <td>{`${r.city}, ${r.state}`}</td>
-                <td>{new Date(r.expirationDate).toLocaleDateString()}</td>
-                <td>{r.daysToExpiration}</td>
-                <td>${r.annualPremium.toLocaleString()}</td>
-                <td>{r.openClaimCount}</td>
-              </tr>
-            ))}
-            {data.length === 0 && !loading && (
-              <tr>
-                <td colSpan={7}>No renewals in this window.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      )}
-      </div>
+      </header>
+      <main style={{
+        paddingTop: "calc(64px + 1.5rem)",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
+        paddingBottom: "1.5rem",
+        maxWidth: "1400px",
+        margin: "0 auto",
+        width: "100%"
+      }}>
+        {renderPage()}
+      </main>
     </div>
   );
 }
