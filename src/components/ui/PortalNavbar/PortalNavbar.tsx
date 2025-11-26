@@ -27,25 +27,44 @@ function PortalNavbar({ activeRoute, onRouteChange, userName }: PortalNavbarProp
       justifyContent: 'space-between',
       padding: '0 2rem',
       height: '64px',
-      backgroundColor: '#1a1a1a',
-      borderBottom: '1px solid #333',
+      backgroundColor: '#ffffff',
+      borderBottom: '1px solid #e5e7eb',
       zIndex: 1000,
-      // TODO: Add media queries for responsive behavior
+      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
     }}>
       {/* Logo/Title Section */}
       <div style={{
-        fontSize: '1.25rem',
-        fontWeight: '600',
-        color: '#fff',
-        // TODO: Consider adding a logo image here
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
       }}>
-        Coastal Risk Portal
+        <div style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: '8px',
+          backgroundColor: '#2563eb',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          fontSize: '1.25rem',
+          fontWeight: '700',
+        }}>
+          C
+        </div>
+        <div style={{
+          fontSize: '1.125rem',
+          fontWeight: '600',
+          color: '#1f2937',
+        }}>
+          Coastal Risk Portal
+        </div>
       </div>
 
       {/* Navigation Links */}
       <div style={{
         display: 'flex',
-        gap: '2rem',
+        gap: '0.5rem',
         alignItems: 'center',
       }}>
         {routes.map((route) => (
@@ -53,25 +72,26 @@ function PortalNavbar({ activeRoute, onRouteChange, userName }: PortalNavbarProp
             key={route}
             onClick={() => onRouteChange(route)}
             style={{
-              background: 'none',
+              background: activeRoute === route ? '#dbeafe' : 'transparent',
               border: 'none',
-              color: activeRoute === route ? '#fff' : '#999',
-              fontSize: '1rem',
+              color: activeRoute === route ? '#2563eb' : '#6b7280',
+              fontSize: '0.9375rem',
               cursor: 'pointer',
-              padding: '0.5rem 0',
-              borderBottom: activeRoute === route ? '2px solid #646cff' : '2px solid transparent',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
               transition: 'all 0.2s ease',
               fontWeight: activeRoute === route ? '500' : '400',
-              // TODO: Add hover state styling
             }}
             onMouseEnter={(e) => {
               if (activeRoute !== route) {
-                e.currentTarget.style.color = '#ccc';
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.color = '#1f2937';
               }
             }}
             onMouseLeave={(e) => {
               if (activeRoute !== route) {
-                e.currentTarget.style.color = '#999';
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#6b7280';
               }
             }}
           >
@@ -84,17 +104,15 @@ function PortalNavbar({ activeRoute, onRouteChange, userName }: PortalNavbarProp
           width: '40px',
           height: '40px',
           borderRadius: '50%',
-          backgroundColor: '#333',
-          color: '#fff',
+          backgroundColor: '#2563eb',
+          color: '#ffffff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: '0.875rem',
           fontWeight: '600',
           marginLeft: '1rem',
-          border: '1px solid #555',
-          // TODO: Add tooltip with full user name on hover
-          // TODO: Consider adding dropdown menu for user actions
+          cursor: 'pointer',
         }}>
           {getInitials(userName)}
         </div>
